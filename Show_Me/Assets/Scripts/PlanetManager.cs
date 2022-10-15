@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlanetManager : MonoBehaviour {
 
+    public float oxygenLevel;
+    public float carbonLevel;
+
+    public float temperature;
+
     private Material material;
     private Shader shader;
 
