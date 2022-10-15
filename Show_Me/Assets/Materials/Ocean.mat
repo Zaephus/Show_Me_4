@@ -37,6 +37,8 @@ Material:
     m_Floats:
     - _DisplacementAmplitude: 0.05
     - _DisplacementSpeed: 0.25
+    - _FoamOffset: 0.09
+    - _FoamStrength: 0.29
     - _NoiseScale: 48.89
     - _QueueControl: 0
     - _QueueOffset: 0
