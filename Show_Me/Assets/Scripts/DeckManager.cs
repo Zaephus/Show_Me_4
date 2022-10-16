@@ -19,16 +19,18 @@ public class DeckManager : MonoBehaviour {
 
     private void Start() {
 
-        List<Vector3> deckOrder = SetDeckOrder(cardAmount);
-
         for(int i = 0; i < cardAmount; i++) {
-            GameObject card = Instantiate(cardPrefab,deckOrder[i],cardPrefab.transform.localRotation);
+            GameObject card = Instantiate(cardPrefab,Vector3.zero,cardPrefab.transform.localRotation);
             card.GetComponent<Card>().index = i+1;
             card.GetComponent<Card>().OnStart();
             deckPool.Add(card.GetComponent<Card>());
         }
 
-        deckPool[0].transform.position = new Vector3(deckPool[0].transform.position.x + 1,deckPool[0].transform.position.y,deckPool[0].transform.position.z);
+        deckPool = ShufflePool(deckPool,deckTransform);
+        
+        deckPool[deckPool.Count-1].transform.position = new Vector3(deckPool[deckPool.Count-1].transform.position.x + 1,
+                                                                    deckPool[deckPool.Count-1].transform.position.y,
+                                                                    deckPool[deckPool.Count-1].transform.position.z + 1);
 
     }
 
@@ -36,17 +38,12 @@ public class DeckManager : MonoBehaviour {
 
     }
 
-    private List<Vector3> SetDeckOrder(int amount) {
-
-        List<Vector3> positions = new List<Vector3>();
-
-        for(int i = 0; i < amount; i++) {
-            positions.Add(new Vector3(deckTransform.position.x, deckTransform.position.y + cardPrefab.transform.localScale.y*i, deckTransform.position.z));
+    private List<Card> ShufflePool(List<Card> cardPool,Transform poolTransform) {
+        cardPool = cardPool.OrderBy(a => Random.value).ToList();
+        for(int i = 0; i < deckPool.Count; i++) {
+            cardPool[i].transform.position = new Vector3(poolTransform.position.x, poolTransform.position.y + cardPrefab.transform.localScale.y*i, poolTransform.position.z);
         }
-
-        //return(positions);
-        return(positions.OrderBy(a => Random.value).ToList());
-
+        return cardPool;
     }
 
 }
