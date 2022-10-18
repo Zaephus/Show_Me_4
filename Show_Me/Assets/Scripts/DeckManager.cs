@@ -35,7 +35,11 @@ public class DeckManager : MonoBehaviour {
     }
 
     private void Update() {
-
+        if(Input.GetKeyDown(KeyCode.E)) {
+            Debug.Log("Stardet Animation from manager");
+            deckPool[deckPool.Count-1].animator.SetBool("IsEnteringPlay",true);
+            deckPool[deckPool.Count-1].MoveToTarget(playTransforms[0]);
+        }
     }
 
     private List<Card> ShufflePool(List<Card> cardPool,Transform poolTransform) {
