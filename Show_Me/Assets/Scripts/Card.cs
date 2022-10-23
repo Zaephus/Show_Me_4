@@ -12,8 +12,6 @@ public class Card : MonoBehaviour {
 
     [SerializeField] private TMP_Text indexText;
 
-    [SerializeField] private Transform target;
-
     public void OnStart() {
         animator = GetComponent<Animator>();
         indexText.text = index.ToString();
@@ -23,11 +21,30 @@ public class Card : MonoBehaviour {
 
     }
 
-    public void MoveToTarget(Transform target) {
-        if(animator) {
-            Debug.Log("Doing Animation");
-            animator.MatchTarget(target.position,target.rotation,new AvatarTarget(),new MatchTargetWeightMask(Vector3.one,1f),0.0f,1.0f);
+    public IEnumerator MoveToTarget(Transform target,float moveTime) {
+        
+        float startTime = Time.time;
+
+        while(transform.position != target.position) {
+            float completion = (Time.time - startTime) / (moveTime*2);
+            transform.position = Vector3.Slerp(transform.position,target.position,completion);
+            yield return new WaitForEndOfFrame();
         }
+        
+    }
+
+    public IEnumerator Rotate(float moveTime) {
+
+        Quaternion targetRotation = Quaternion.Euler(new Vector3(transform.eulerAngles.x + 180,transform.eulerAngles.y,transform.eulerAngles.z));
+
+        float counter = 0;
+
+        while(counter < moveTime) {
+            counter += Time.deltaTime;
+            transform.rotation = Quaternion.Slerp(transform.rotation,targetRotation,counter/moveTime);
+            yield return new WaitForEndOfFrame();
+        }
+
     }
 
 }

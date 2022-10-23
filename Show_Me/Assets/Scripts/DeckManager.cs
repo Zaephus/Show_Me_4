@@ -27,18 +27,15 @@ public class DeckManager : MonoBehaviour {
         }
 
         deckPool = ShufflePool(deckPool,deckTransform);
-        
-        deckPool[deckPool.Count-1].transform.position = new Vector3(deckPool[deckPool.Count-1].transform.position.x + 1,
-                                                                    deckPool[deckPool.Count-1].transform.position.y,
-                                                                    deckPool[deckPool.Count-1].transform.position.z + 1);
 
     }
 
     private void Update() {
         if(Input.GetKeyDown(KeyCode.E)) {
-            Debug.Log("Stardet Animation from manager");
-            deckPool[deckPool.Count-1].animator.SetBool("IsEnteringPlay",true);
-            deckPool[deckPool.Count-1].MoveToTarget(playTransforms[0]);
+            deckPool[0].StartCoroutine(deckPool[0].MoveToTarget(playTransforms[playedPool.Count], 5));
+            deckPool[0].StartCoroutine(deckPool[0].Rotate(5));
+            playedPool.Add(deckPool[0]);
+            deckPool.RemoveAt(0);
         }
     }
 
@@ -47,6 +44,7 @@ public class DeckManager : MonoBehaviour {
         for(int i = 0; i < deckPool.Count; i++) {
             cardPool[i].transform.position = new Vector3(poolTransform.position.x, poolTransform.position.y + cardPrefab.transform.localScale.y*i, poolTransform.position.z);
         }
+        cardPool.Reverse();
         return cardPool;
     }
 
