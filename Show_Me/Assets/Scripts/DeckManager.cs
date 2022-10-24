@@ -15,14 +15,15 @@ public class DeckManager : MonoBehaviour {
 
     private List<Card> deckPool = new List<Card>();
     private List<Card> playedPool = new List<Card>();
-    private List<Card> discardPool = new List<Card>();
+    private Dictionary<Transform, Card> playedDict = new Dictionary<Transform, Card>();
+    public List<Card> discardPool = new List<Card>();
 
     private void Start() {
 
         for(int i = 0; i < cardAmount; i++) {
             GameObject card = Instantiate(cardPrefab,Vector3.zero,cardPrefab.transform.localRotation);
             card.GetComponent<Card>().index = i+1;
-            card.GetComponent<Card>().OnStart();
+            card.GetComponent<Card>().OnStart(this);
             deckPool.Add(card.GetComponent<Card>());
         }
 
@@ -31,12 +32,26 @@ public class DeckManager : MonoBehaviour {
     }
 
     private void Update() {
-        if(Input.GetKeyDown(KeyCode.E)) {
-            deckPool[0].StartCoroutine(deckPool[0].MoveToTarget(playTransforms[playedPool.Count], 5));
+        if(Input.GetKeyDown(KeyCode.E) && deckPool.Count != 0) {
+            deckPool[0].StartCoroutine(deckPool[0].MoveToTarget(playTransforms[playedPool.Count].position, 5));
             deckPool[0].StartCoroutine(deckPool[0].Rotate(5));
+            deckPool[0].onPlayingField = true;
             playedPool.Add(deckPool[0]);
             deckPool.RemoveAt(0);
         }
+    }
+
+    public void DiscardCard(Card card) {
+
+        Vector3 discardTarget = new Vector3(discardTransform.position.x,
+                                            discardTransform.position.y + cardPrefab.transform.localScale.y * discardPool.Count,
+                                            discardTransform.position.z);
+
+        card.StartCoroutine(card.MoveToTarget(discardTarget, 5));
+        card.onPlayingField = false;
+        discardPool.Insert(0,card);
+        playedPool.Remove(card);
+
     }
 
     private List<Card> ShufflePool(List<Card> cardPool,Transform poolTransform) {
