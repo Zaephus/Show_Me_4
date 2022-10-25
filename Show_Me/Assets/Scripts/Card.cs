@@ -10,11 +10,14 @@ public class Card : MonoBehaviour {
 
     public Animator animator;
 
+    public bool onPlayingField = false;
+
     [SerializeField] private TMP_Text indexText;
 
-    [SerializeField] private Transform target;
+    private DeckManager deckManager;
 
-    public void OnStart() {
+    public void OnStart(DeckManager dm) {
+        deckManager = dm;
         animator = GetComponent<Animator>();
         indexText.text = index.ToString();
     }
@@ -23,11 +26,44 @@ public class Card : MonoBehaviour {
 
     }
 
-    public void MoveToTarget(Transform target) {
-        if(animator) {
-            Debug.Log("Doing Animation");
-            animator.MatchTarget(target.position,target.rotation,new AvatarTarget(),new MatchTargetWeightMask(Vector3.one,1f),0.0f,1.0f);
+    public void OnMouseOver() {
+
+        if(onPlayingField) {
+            if(Input.GetMouseButtonDown(0)) {
+                deckManager.ViewCard(this);
+            }
         }
+
+        // do outline thingy maybe?
+
+    }
+
+    public IEnumerator MoveToTarget(Vector3 targetPosition, float moveTime) {
+        
+        float counter = 0;
+
+        while(counter <= moveTime-1) {
+            counter += Time.deltaTime;
+            transform.position = Vector3.Slerp(transform.position,targetPosition,counter/moveTime);
+            yield return new WaitForEndOfFrame();
+        }
+
+        transform.position = targetPosition;
+        
+    }
+
+    public IEnumerator RotateToTarget(Quaternion targetRotation, float moveTime) {
+
+        float counter = 0;
+        
+        while(counter <= moveTime-1) {
+            counter += Time.deltaTime;
+            transform.rotation = Quaternion.Lerp(transform.rotation,targetRotation,counter/moveTime);
+            yield return new WaitForEndOfFrame();
+        }
+
+        transform.rotation = targetRotation;
+
     }
 
 }
