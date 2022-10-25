@@ -11,9 +11,12 @@ public class DeckManager : MonoBehaviour {
     public List<Transform> playTransforms = new List<Transform>();
     public Transform viewTarget;
 
-    public Canvas buttonCanvas;
     public Button useButton;
     public Button returnButton;
+
+    [SerializeField] private PlanetManager planet;
+
+    [SerializeField] private List<CardStats> cardStats = new List<CardStats>();
 
     [SerializeField] private int cardAmount = 10;
 
@@ -27,16 +30,17 @@ public class DeckManager : MonoBehaviour {
 
     private void Start() {
 
-        for(int i = 0; i < cardAmount; i++) {
+        for(int i = 0; i < cardStats.Count; i++) {
             GameObject card = Instantiate(cardPrefab,Vector3.zero,cardPrefab.transform.localRotation);
-            card.GetComponent<Card>().index = i+1;
-            card.GetComponent<Card>().OnStart(this);
+            card.GetComponent<Card>().title = cardStats[i].cardName;
+            card.GetComponent<Card>().Initialize(this, cardStats[i]);
             deckPool.Add(card.GetComponent<Card>());
         }
 
         deckPool = ShufflePool(deckPool,deckTransform);
 
-        buttonCanvas.enabled = false;
+        useButton.gameObject.SetActive(false);
+        returnButton.gameObject.SetActive(false);
 
     }
 
@@ -68,6 +72,14 @@ public class DeckManager : MonoBehaviour {
 
     }
 
+    public void UseCard(Card card) {
+        planet.oxygenLevel += card.stats.oxygenModifier;
+        planet.carbonLevel += card.stats.carbonModifier;
+        planet.temperature += card.stats.tempModifier;
+        planet.radiation   += card.stats.radModifier;
+        DiscardCard(card);
+    }
+
     public void DiscardCard(Card card) {
 
         Vector3 discardTarget = new Vector3(discardTransform.position.x,
@@ -75,8 +87,9 @@ public class DeckManager : MonoBehaviour {
                                             discardTransform.position.z);
 
         card.StartCoroutine(card.MoveToTarget(discardTarget, 5));
+        card.StartCoroutine(card.RotateToTarget(discardTransform.rotation, 5));
         card.onPlayingField = false;
-        
+
         discardPool.Insert(0,card);
         playedPool.Insert(playedPool.IndexOf(card), null);
         playedPool.Remove(card);
@@ -97,7 +110,8 @@ public class DeckManager : MonoBehaviour {
         card.StartCoroutine(card.MoveToTarget(viewTarget.position, 5));
         yield return card.StartCoroutine(card.RotateToTarget(viewTarget.rotation, 5));
 
-        buttonCanvas.enabled = true;
+        useButton.gameObject.SetActive(true);
+        returnButton.gameObject.SetActive(true);
         isViewingCard = true;
 
         WaitForUIButtons waitForButton = new WaitForUIButtons(useButton, returnButton);
@@ -106,12 +120,14 @@ public class DeckManager : MonoBehaviour {
         if(waitForButton.PressedButton == returnButton) {
             card.StartCoroutine(card.MoveToTarget(startPosition, 5));
             card.StartCoroutine(card.RotateToTarget(startRotation, 5));
-            buttonCanvas.enabled = false;
+            useButton.gameObject.SetActive(false);
+            returnButton.gameObject.SetActive(false);
             isViewingCard = false;
         }
         else if(waitForButton.PressedButton == useButton) {
-            DiscardCard(card);
-            buttonCanvas.enabled = false;
+            UseCard(card);
+            useButton.gameObject.SetActive(false);
+            returnButton.gameObject.SetActive(false);
             isViewingCard = false;
         }
         else {

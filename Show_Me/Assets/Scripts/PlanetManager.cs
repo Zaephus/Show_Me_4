@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlanetManager : MonoBehaviour {
 
@@ -8,6 +9,12 @@ public class PlanetManager : MonoBehaviour {
     public float carbonLevel;
 
     public float temperature;
+    public float radiation;
+
+    [SerializeField] private TMP_Text oxygenText;
+    [SerializeField] private TMP_Text carbonText;
+    [SerializeField] private TMP_Text tempText;
+    [SerializeField] private TMP_Text radText;
 
     private Material material;
     private Shader shader;
@@ -18,7 +25,10 @@ public class PlanetManager : MonoBehaviour {
     }
 
     public void Update() {
-
+        oxygenText.text = "O2: " + oxygenLevel;
+        carbonText.text = "CO2: " + carbonLevel;
+        tempText.text = "Temp: " + temperature;
+        radText.text = "Rad: " + radiation;
     }
 
 }

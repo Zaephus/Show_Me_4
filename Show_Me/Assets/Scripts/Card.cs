@@ -6,20 +6,22 @@ using TMPro;
 
 public class Card : MonoBehaviour {
 
-    public int index;
+    public string title;
 
     public Animator animator;
 
     public bool onPlayingField = false;
 
+    public CardStats stats;
+
     [SerializeField] private TMP_Text indexText;
 
     private DeckManager deckManager;
 
-    public void OnStart(DeckManager dm) {
+    public void Initialize(DeckManager dm, CardStats cs) {
         deckManager = dm;
-        animator = GetComponent<Animator>();
-        indexText.text = index.ToString();
+        stats = cs;
+        indexText.text = title;
     }
 
     public void OnUpdate() {
