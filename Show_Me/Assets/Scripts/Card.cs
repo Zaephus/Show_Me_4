@@ -30,7 +30,7 @@ public class Card : MonoBehaviour {
 
         if(onPlayingField) {
             if(Input.GetMouseButtonDown(0)) {
-                deckManager.DiscardCard(this);
+                deckManager.ViewCard(this);
             }
         }
 
@@ -38,29 +38,31 @@ public class Card : MonoBehaviour {
 
     }
 
-    public IEnumerator MoveToTarget(Vector3 target,float moveTime) {
+    public IEnumerator MoveToTarget(Vector3 targetPosition, float moveTime) {
         
-        float startTime = Time.time;
+        float counter = 0;
 
-        while(transform.position != target) {
-            float completion = (Time.time - startTime) / (moveTime*2);
-            transform.position = Vector3.Slerp(transform.position,target,completion);
+        while(counter <= moveTime-1) {
+            counter += Time.deltaTime;
+            transform.position = Vector3.Slerp(transform.position,targetPosition,counter/moveTime);
             yield return new WaitForEndOfFrame();
         }
+
+        transform.position = targetPosition;
         
     }
 
-    public IEnumerator Rotate(float moveTime) {
-
-        Quaternion targetRotation = Quaternion.Euler(new Vector3(transform.eulerAngles.x + 180,transform.eulerAngles.y,transform.eulerAngles.z));
+    public IEnumerator RotateToTarget(Quaternion targetRotation, float moveTime) {
 
         float counter = 0;
-
-        while(counter < moveTime) {
+        
+        while(counter <= moveTime-1) {
             counter += Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(transform.rotation,targetRotation,counter/moveTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation,targetRotation,counter/moveTime);
             yield return new WaitForEndOfFrame();
         }
+
+        transform.rotation = targetRotation;
 
     }
 
