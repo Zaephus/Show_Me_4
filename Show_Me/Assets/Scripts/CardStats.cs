@@ -6,10 +6,12 @@ using UnityEngine;
 public class CardStats : ScriptableObject {
 
     public string cardName;
+    public string cardDescription;
 
     public float oxygenModifier;
     public float carbonModifier;
     public float tempModifier;
     public float radModifier;
+    public float lifeModifier;
 
 }

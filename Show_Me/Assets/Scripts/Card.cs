@@ -7,6 +7,7 @@ using TMPro;
 public class Card : MonoBehaviour {
 
     public string title;
+    public string description;
 
     public Animator animator;
 
@@ -14,14 +15,16 @@ public class Card : MonoBehaviour {
 
     public CardStats stats;
 
-    [SerializeField] private TMP_Text indexText;
+    [SerializeField] private TMP_Text titleText;
+    [SerializeField] private TMP_Text descriptionText;
 
     private DeckManager deckManager;
 
     public void Initialize(DeckManager dm, CardStats cs) {
         deckManager = dm;
         stats = cs;
-        indexText.text = title;
+        titleText.text = title;
+        descriptionText.text = description;
     }
 
     public void OnUpdate() {

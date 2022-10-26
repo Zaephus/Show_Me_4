@@ -18,8 +18,6 @@ public class DeckManager : MonoBehaviour {
 
     [SerializeField] private List<CardStats> cardStats = new List<CardStats>();
 
-    [SerializeField] private int cardAmount = 10;
-
     [SerializeField] private GameObject cardPrefab;
 
     private List<Card> deckPool = new List<Card>();
@@ -33,6 +31,7 @@ public class DeckManager : MonoBehaviour {
         for(int i = 0; i < cardStats.Count; i++) {
             GameObject card = Instantiate(cardPrefab,Vector3.zero,cardPrefab.transform.localRotation);
             card.GetComponent<Card>().title = cardStats[i].cardName;
+            card.GetComponent<Card>().description = cardStats[i].cardDescription;
             card.GetComponent<Card>().Initialize(this, cardStats[i]);
             deckPool.Add(card.GetComponent<Card>());
         }
@@ -76,7 +75,8 @@ public class DeckManager : MonoBehaviour {
         planet.oxygenLevel += card.stats.oxygenModifier;
         planet.carbonLevel += card.stats.carbonModifier;
         planet.temperature += card.stats.tempModifier;
-        planet.radiation   += card.stats.radModifier;
+        planet.radiation += card.stats.radModifier;
+        planet.lifeComplexity += card.stats.lifeModifier;
         DiscardCard(card);
     }
 
