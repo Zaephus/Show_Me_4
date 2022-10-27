@@ -9,11 +9,9 @@ public class Card : MonoBehaviour {
     public string title;
     public string description;
 
-    public Animator animator;
+    [HideInInspector] public bool onPlayingField = false;
 
-    public bool onPlayingField = false;
-
-    public CardStats stats;
+    [HideInInspector] public CardStats stats;
 
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text descriptionText;

@@ -14,19 +14,19 @@ public class DeckManager : MonoBehaviour {
     public Button useButton;
     public Button returnButton;
 
+    public List<Card> deckPool = new List<Card>();
+    public List<Card> playedPool = new List<Card>();
+    public List<Card> discardPool = new List<Card>();
+
     [SerializeField] private PlanetManager planet;
 
     [SerializeField] private List<CardStats> cardStats = new List<CardStats>();
 
     [SerializeField] private GameObject cardPrefab;
 
-    private List<Card> deckPool = new List<Card>();
-    [SerializeField] private List<Card> playedPool = new List<Card>();
-    [SerializeField] private List<Card> discardPool = new List<Card>();
-
     private bool isViewingCard = false;
 
-    private void Start() {
+    public void Initialize() {
 
         for(int i = 0; i < cardStats.Count; i++) {
             GameObject card = Instantiate(cardPrefab,Vector3.zero,cardPrefab.transform.localRotation);
@@ -44,9 +44,30 @@ public class DeckManager : MonoBehaviour {
     }
 
     private void Update() {
-        if(Input.GetKeyDown(KeyCode.E) && deckPool.Count != 0) {
-            StartCoroutine(MoveToPlayingField(deckPool[0]));
+        // if(Input.GetKeyDown(KeyCode.E)) {
+        //     if(deckPool.Count != 0) {
+        //         StartCoroutine(MoveToPlayingField(deckPool[0]));
+        //     }
+        //     else {
+        //         StartCoroutine(ResetDeck(discardPool));
+        //     }
+        // }
+    }
+
+    public IEnumerator ResetDeck(List<Card> cardPool) {
+
+        for(int i = 0; i < cardPool.Count; i++) {
+            Vector3 targetPos = new Vector3(deckTransform.position.x, deckTransform.position.y + cardPool[i].transform.localScale.y*i, deckTransform.position.z);
+            cardPool[i].StartCoroutine(cardPool[i].MoveToTarget(targetPos, 2));
+            cardPool[i].StartCoroutine(cardPool[i].RotateToTarget(Quaternion.Euler(new Vector3(deckTransform.eulerAngles.x + 180, deckTransform.eulerAngles.y, deckTransform.eulerAngles.z)), 2));
+            yield return new WaitForSeconds(0.5f);
         }
+
+        yield return new WaitForSeconds(2f);
+        deckPool.AddRange(cardPool);
+        deckPool = ShufflePool(deckPool, deckTransform);
+        cardPool.Clear();
+
     }
 
     public IEnumerator MoveToPlayingField(Card card) {

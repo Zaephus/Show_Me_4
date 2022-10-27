@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1adedacea557abc45870732a3587b66a, type: 3}
-  m_Name: RadCard
+  m_Name: FireBombCard
   m_EditorClassIdentifier: 
-  cardName: mSv
-  oxygenModifier: 0
-  carbonModifier: 0
-  tempModifier: 0
-  radModifier: 10
+  cardName: Fire Bomb
+  cardDescription: Increases temperature greatly.
+  oxygenModifier: -20
+  carbonModifier: 20
+  tempModifier: 40
+  radModifier: 20
+  lifeModifier: 0
