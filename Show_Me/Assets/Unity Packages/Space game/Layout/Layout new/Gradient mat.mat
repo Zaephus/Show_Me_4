@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Gradient mat
-  m_Shader: {fileID: -6465566751694194690, guid: aea870459d5789d47874a3ffea985a9d, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: aea870459d5789d47874a3ffea985a9d,
+    type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -110,8 +111,8 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _bottom_color: {r: 0.09603061, g: 0.24297535, b: 0.24528301, a: 0}
-    - _top_color: {r: 0.3951584, g: 0.73442423, b: 0.754717, a: 0}
+    - _bottom_color: {r: 0, g: 0.4636756, b: 0.6117647, a: 0}
+    - _top_color: {r: 0.39607844, g: 0.6220568, b: 0.7529412, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &8863876213777818500
 MonoBehaviour:
