@@ -1,0 +1,199 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class DeckManager : MonoBehaviour {
+
+    public Transform deckTransform;
+    public Transform discardTransform;
+    public List<Transform> playTransforms = new List<Transform>();
+    public Transform cardViewTarget;
+    public Transform objectiveViewTarget;
+
+    public Button useButton;
+    public Button returnButton;
+
+    public List<Card> deckPool = new List<Card>();
+    public List<Card> playedPool = new List<Card>();
+    public List<Card> discardPool = new List<Card>();
+
+    [SerializeField] private PlanetManager planet;
+
+    [SerializeField] private List<CardStats> cardStats = new List<CardStats>();
+
+    [SerializeField] private GameObject cardPrefab;
+
+    private bool isViewingCard = false;
+
+    public void Initialize() {
+
+        for(int i = 0; i < cardStats.Count; i++) {
+            GameObject card = Instantiate(cardPrefab,Vector3.zero,cardPrefab.transform.localRotation);
+            card.GetComponent<Card>().title = cardStats[i].cardName;
+            card.GetComponent<Card>().description = cardStats[i].cardDescription;
+            card.GetComponent<Card>().Initialize(this, cardStats[i]);
+            deckPool.Add(card.GetComponent<Card>());
+        }
+
+        deckPool = ShufflePool(deckPool,deckTransform);
+
+        useButton.gameObject.SetActive(false);
+        returnButton.gameObject.SetActive(false);
+
+    }
+
+    private void Update() {
+        // if(Input.GetKeyDown(KeyCode.E)) {
+        //     if(deckPool.Count != 0) {
+        //         StartCoroutine(MoveToPlayingField(deckPool[0]));
+        //     }
+        //     else {
+        //         StartCoroutine(ResetDeck(discardPool));
+        //     }
+        // }
+    }
+
+    public IEnumerator ResetDeck(List<Card> cardPool) {
+
+        for(int i = 0; i < cardPool.Count; i++) {
+            Vector3 targetPos = new Vector3(deckTransform.position.x, deckTransform.position.y + cardPool[i].transform.localScale.y*i, deckTransform.position.z);
+            cardPool[i].StartCoroutine(cardPool[i].MoveToTarget(targetPos, 2));
+            cardPool[i].StartCoroutine(cardPool[i].RotateToTarget(Quaternion.Euler(new Vector3(deckTransform.eulerAngles.x + 180, deckTransform.eulerAngles.y, deckTransform.eulerAngles.z)), 2));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        yield return new WaitForSeconds(2f);
+        deckPool.AddRange(cardPool);
+        deckPool = ShufflePool(deckPool, deckTransform);
+        cardPool.Clear();
+
+    }
+
+    public IEnumerator MoveToPlayingField(Card card) {
+
+        Transform targetTransform = playTransforms[playedPool.Count];
+
+        for(int i = 0; i < playedPool.Count; i++) {
+            if(playedPool[i] == null) {
+                targetTransform = playTransforms[i];
+                playedPool.RemoveAt(i);
+                break;
+            }
+        }
+
+        deckPool.Remove(card);
+        playedPool.Insert(playTransforms.IndexOf(targetTransform), card);
+
+        card.StartCoroutine(card.MoveToTarget(targetTransform.position, 5));
+        yield return card.StartCoroutine(card.RotateToTarget(Quaternion.Euler(new Vector3(card.transform.eulerAngles.x + 180, card.transform.eulerAngles.y, card.transform.eulerAngles.z)), 5));
+        
+        card.onPlayingField = true;
+
+    }
+
+    public void UseCard(Card card) {
+        planet.oxygenLevel += card.stats.oxygenModifier;
+        planet.carbonLevel += card.stats.carbonModifier;
+        planet.temperature += card.stats.tempModifier;
+        planet.radiation += card.stats.radModifier;
+        planet.lifeComplexity += card.stats.lifeModifier;
+        DiscardCard(card);
+    }
+
+    public void DiscardCard(Card card) {
+
+        Vector3 discardTarget = new Vector3(discardTransform.position.x,
+                                            discardTransform.position.y + cardPrefab.transform.localScale.y * discardPool.Count,
+                                            discardTransform.position.z);
+
+        card.StartCoroutine(card.MoveToTarget(discardTarget, 5));
+        card.StartCoroutine(card.RotateToTarget(discardTransform.rotation, 5));
+        card.onPlayingField = false;
+
+        discardPool.Insert(0,card);
+        playedPool.Insert(playedPool.IndexOf(card), null);
+        playedPool.Remove(card);
+
+    }
+
+    public void ViewCard(Card card = null, ObjectiveCard oCard = null) {
+        if(!isViewingCard) {
+            if(card != null) {
+                StartCoroutine(StartViewCard(card));
+            }
+            else if(oCard != null) {
+                StartCoroutine(StartViewObjective(oCard));
+            }
+        }
+    }
+
+    public IEnumerator StartViewCard(Card card) {
+
+        Vector3 startPosition = card.transform.position;
+        Quaternion startRotation = card.transform.rotation;
+
+        card.StartCoroutine(card.MoveToTarget(cardViewTarget.position, 5));
+        yield return card.StartCoroutine(card.RotateToTarget(cardViewTarget.rotation, 5));
+
+        useButton.gameObject.SetActive(true);
+        returnButton.gameObject.SetActive(true);
+        isViewingCard = true;
+
+        WaitForUIButtons waitForButton = new WaitForUIButtons(useButton, returnButton);
+        yield return waitForButton.Reset();
+
+        if(waitForButton.PressedButton == returnButton) {
+            card.StartCoroutine(card.MoveToTarget(startPosition, 5));
+            card.StartCoroutine(card.RotateToTarget(startRotation, 5));
+            useButton.gameObject.SetActive(false);
+            returnButton.gameObject.SetActive(false);
+            isViewingCard = false;
+        }
+        else if(waitForButton.PressedButton == useButton) {
+            UseCard(card);
+            useButton.gameObject.SetActive(false);
+            returnButton.gameObject.SetActive(false);
+            isViewingCard = false;
+        }
+        else {
+            yield break;
+        }
+    }
+
+    public IEnumerator StartViewObjective(ObjectiveCard oCard) {
+
+        Vector3 startPosition = oCard.transform.position;
+        Quaternion startRotation = oCard.transform.rotation;
+
+        oCard.StartCoroutine(oCard.MoveToTarget(objectiveViewTarget.position, 5));
+        yield return oCard.StartCoroutine(oCard.RotateToTarget(objectiveViewTarget.rotation, 5));
+
+        returnButton.gameObject.SetActive(true);
+        isViewingCard = true;
+
+        WaitForUIButtons waitForButton = new WaitForUIButtons(returnButton);
+        yield return waitForButton.Reset();
+
+        if(waitForButton.PressedButton == returnButton) {
+            oCard.StartCoroutine(oCard.MoveToTarget(startPosition, 5));
+            oCard.StartCoroutine(oCard.RotateToTarget(startRotation, 5));
+            returnButton.gameObject.SetActive(false);
+            isViewingCard = false;
+        }
+        else {
+            yield break;
+        }
+    }
+
+    private List<Card> ShufflePool(List<Card> cardPool,Transform poolTransform) {
+        cardPool = cardPool.OrderBy(a => Random.value).ToList();
+        for(int i = 0; i < deckPool.Count; i++) {
+            cardPool[i].transform.position = new Vector3(poolTransform.position.x, poolTransform.position.y + cardPrefab.transform.localScale.y*i, poolTransform.position.z);
+        }
+        cardPool.Reverse();
+        return cardPool;
+    }
+
+}
