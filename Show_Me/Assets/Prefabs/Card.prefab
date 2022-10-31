@@ -458,7 +458,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: 
   description: 
-  animator: {fileID: 0}
   onPlayingField: 0
   stats: {fileID: 0}
   titleText: {fileID: 8516290109284570475}

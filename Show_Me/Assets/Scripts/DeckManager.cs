@@ -9,7 +9,8 @@ public class DeckManager : MonoBehaviour {
     public Transform deckTransform;
     public Transform discardTransform;
     public List<Transform> playTransforms = new List<Transform>();
-    public Transform viewTarget;
+    public Transform cardViewTarget;
+    public Transform objectiveViewTarget;
 
     public Button useButton;
     public Button returnButton;
@@ -117,9 +118,14 @@ public class DeckManager : MonoBehaviour {
 
     }
 
-    public void ViewCard(Card card) {
+    public void ViewCard(Card card = null, ObjectiveCard oCard = null) {
         if(!isViewingCard) {
-            StartCoroutine(StartViewCard(card));
+            if(card != null) {
+                StartCoroutine(StartViewCard(card));
+            }
+            else if(oCard != null) {
+                StartCoroutine(StartViewObjective(oCard));
+            }
         }
     }
 
@@ -128,8 +134,8 @@ public class DeckManager : MonoBehaviour {
         Vector3 startPosition = card.transform.position;
         Quaternion startRotation = card.transform.rotation;
 
-        card.StartCoroutine(card.MoveToTarget(viewTarget.position, 5));
-        yield return card.StartCoroutine(card.RotateToTarget(viewTarget.rotation, 5));
+        card.StartCoroutine(card.MoveToTarget(cardViewTarget.position, 5));
+        yield return card.StartCoroutine(card.RotateToTarget(cardViewTarget.rotation, 5));
 
         useButton.gameObject.SetActive(true);
         returnButton.gameObject.SetActive(true);
@@ -148,6 +154,31 @@ public class DeckManager : MonoBehaviour {
         else if(waitForButton.PressedButton == useButton) {
             UseCard(card);
             useButton.gameObject.SetActive(false);
+            returnButton.gameObject.SetActive(false);
+            isViewingCard = false;
+        }
+        else {
+            yield break;
+        }
+    }
+
+    public IEnumerator StartViewObjective(ObjectiveCard oCard) {
+
+        Vector3 startPosition = oCard.transform.position;
+        Quaternion startRotation = oCard.transform.rotation;
+
+        oCard.StartCoroutine(oCard.MoveToTarget(objectiveViewTarget.position, 5));
+        yield return oCard.StartCoroutine(oCard.RotateToTarget(objectiveViewTarget.rotation, 5));
+
+        returnButton.gameObject.SetActive(true);
+        isViewingCard = true;
+
+        WaitForUIButtons waitForButton = new WaitForUIButtons(returnButton);
+        yield return waitForButton.Reset();
+
+        if(waitForButton.PressedButton == returnButton) {
+            oCard.StartCoroutine(oCard.MoveToTarget(startPosition, 5));
+            oCard.StartCoroutine(oCard.RotateToTarget(startRotation, 5));
             returnButton.gameObject.SetActive(false);
             isViewingCard = false;
         }
