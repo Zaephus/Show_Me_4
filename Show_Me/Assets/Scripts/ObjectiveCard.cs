@@ -1,44 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
-public class Card : MonoBehaviour {
+public class ObjectiveCard : MonoBehaviour {
 
-    public string title;
-    public string description;
+    [TextArea(5,10)]
+    public string objectives;
 
-    [HideInInspector] public bool onPlayingField = false;
+    public TMP_Text objectivesText;
 
-    [HideInInspector] public CardStats stats;
+    public DeckManager deckManager;
 
-    [SerializeField] private TMP_Text titleText;
-    [SerializeField] private TMP_Text descriptionText;
-
-    private DeckManager deckManager;
-
-    public void Initialize(DeckManager dm, CardStats cs) {
-        deckManager = dm;
-        stats = cs;
-        titleText.text = title;
-        descriptionText.text = description;
+    private void Start() {
+        objectivesText.text = objectives;
     }
 
-    public void OnUpdate() {
-
-    }
-
-    public void OnMouseOver() {
-
-        if(onPlayingField) {
-            if(Input.GetMouseButtonDown(0)) {
-                deckManager.ViewCard(this);
-            }
-        }
-
-        // do outline thingy maybe?
-
+    public void OnMouseDown() {
+        deckManager.ViewCard(null, this);
     }
 
     public IEnumerator MoveToTarget(Vector3 targetPosition, float moveTime) {
