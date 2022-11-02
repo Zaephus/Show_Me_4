@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1adedacea557abc45870732a3587b66a, type: 3}
-  m_Name: BurnBiomassCard
+  m_Name: Radiator
   m_EditorClassIdentifier: 
-  cardName: Burn Biomass
-  cardDescription: 'Requires 1 life foundation.
-
-    Increases CO2 tremendously.'
-  oxygenModifier: -50
-  carbonModifier: 5
-  tempModifier: 2
-  radModifier: 2
-  lifeModifier: -1
-  modification: 0
+  cardName: Radiator
+  cardDescription: Radiates radiation and heat
+  oxygenModifier: 0
+  carbonModifier: 0
+  tempModifier: 1
+  radModifier: 1
+  lifeModifier: 0
+  modification: 2
   special: 0

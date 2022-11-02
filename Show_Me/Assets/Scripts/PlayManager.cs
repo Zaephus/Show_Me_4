@@ -47,12 +47,17 @@ public class PlayManager : MonoBehaviour {
     }
 
     private IEnumerator EndDay() {
-
-        for(int i = 0; i < deck.playedPool.Count; i++) {
+        deck.ActivatePassives();
+        for (int i = 0; i < deck.playedPool.Count; i++) {
             if(deck.playedPool[i] != null) {
                 deck.DiscardCard(deck.playedPool[i]);
                 yield return new WaitForSeconds(0.5f);
             }
+        }
+        for (int i = 0; i < deck.effectPool.Count; i++)
+        {
+             deck.DiscardEffectCard(deck.effectPool[i]);
+             yield return new WaitForSeconds(0.5f);
         }
 
         yield return new WaitForSeconds(3f);
