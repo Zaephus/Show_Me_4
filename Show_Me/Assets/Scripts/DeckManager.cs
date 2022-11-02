@@ -8,6 +8,8 @@ public class DeckManager : MonoBehaviour {
 
     public Transform deckTransform;
     public Transform discardTransform;
+    public Transform passiveTransform;
+    public Transform effectTransform;
     public List<Transform> playTransforms = new List<Transform>();
     public Transform cardViewTarget;
     public Transform objectiveViewTarget;
@@ -18,6 +20,8 @@ public class DeckManager : MonoBehaviour {
     public List<Card> deckPool = new List<Card>();
     public List<Card> playedPool = new List<Card>();
     public List<Card> discardPool = new List<Card>();
+    public List<Card> passivePool = new List<Card>();
+    public List<Card> effectPool = new List<Card>();
 
     [SerializeField] private PlanetManager planet;
 
@@ -94,14 +98,97 @@ public class DeckManager : MonoBehaviour {
     }
 
     public void UseCard(Card card) {
-        planet.oxygenLevel += card.stats.oxygenModifier;
-        planet.carbonLevel += card.stats.carbonModifier;
-        planet.temperature += card.stats.tempModifier;
-        planet.radiation += card.stats.radModifier;
-        planet.lifeComplexity += card.stats.lifeModifier;
-        DiscardCard(card);
+        switch (card.stats.modification)
+        {
+            case mod.Addition:
+                int Aatmos = (int)card.stats.carbonModifier;
+                int Atemp = (int)card.stats.tempModifier;
+                int Arad = (int)card.stats.radModifier;
+                int Alife = (int)card.stats.lifeModifier;
+                foreach (Card eCard in effectPool)
+                {
+                    (int, int, int, int) effected = eCard.stats.cardFunc((Aatmos, Atemp, Arad, Alife, eCard.stats.special));
+                    Aatmos = effected.Item1;
+                    Atemp = effected.Item2;
+                    Arad = effected.Item3;
+                    Alife = effected.Item4;
+                }
+                planet.atmosLevel += Aatmos;
+                planet.temperature += Atemp;
+                planet.radiation += Arad;
+                planet.lifeComplexity += Alife;
+
+                break;
+            case mod.ActiveMultiplication:
+                (int, int, int, int) results = card.stats.cardFunc(((int)planet.atmosLevel, (int)planet.temperature, (int)planet.radiation, (int)planet.lifeComplexity, card.stats.special));
+                planet.atmosLevel = results.Item1;
+                planet.temperature = results.Item2;
+                planet.radiation = results.Item3;
+                planet.lifeComplexity = results.Item4;
+                break;
+            case mod.passiveAddition:
+                break;
+            case mod.effect:
+                break;
+            case mod.Destroypassive:
+                break;
+            default:
+                break;
+        }
+        planet.atmosLevel = Mathf.Clamp(planet.atmosLevel, 0, 10);
+        planet.temperature = Mathf.Clamp(planet.temperature, 0, 10);
+        planet.radiation = Mathf.Clamp(planet.radiation, 0, 10);
+        planet.lifeComplexity = Mathf.Clamp(planet.lifeComplexity, 0, 7);
+
+        switch (card.stats.modification)
+        {
+            case mod.Addition:
+                DiscardCard(card);
+                break;
+            case mod.ActiveMultiplication:
+                DiscardCard(card);
+                break;
+            case mod.passiveAddition:
+                PlayPassive(card);
+                break;
+            case mod.effect:
+                PlayEffectCard(card);
+                break;
+            case mod.Destroypassive:
+                break;
+            default:
+                break;
+        }
     }
 
+    public void PlayPassive(Card card)
+    {
+
+        Vector3 passiveTarget = new Vector3(passiveTransform.position.x - (cardPrefab.transform.localScale.x/4) * passivePool.Count,
+                                            passiveTransform.position.y + cardPrefab.transform.localScale.y * passivePool.Count,
+                                            passiveTransform.position.z);
+        card.StartCoroutine(card.MoveToTarget(passiveTarget, 5));
+        card.onPlayingField = false;
+
+        passivePool.Add(card);
+        card.StartCoroutine(card.RotateToTarget(passiveTransform.rotation, 5));
+        playedPool.Insert(playedPool.IndexOf(card), null);
+        playedPool.Remove(card);
+    }
+    public void PlayEffectCard(Card card)
+    {
+
+        Vector3 effectTarget = new Vector3(effectTransform.position.x - (cardPrefab.transform.localScale.x/4) * effectPool.Count,
+                                            effectTransform.position.y + cardPrefab.transform.localScale.y * effectPool.Count,
+                                            effectTransform.position.z);
+        card.StartCoroutine(card.MoveToTarget(effectTarget, 5));
+        card.onPlayingField = false;
+
+        effectPool.Add(card);
+        card.StartCoroutine(card.RotateToTarget(effectTransform.rotation, 5));
+        playedPool.Insert(playedPool.IndexOf(card), null);
+        playedPool.Remove(card);
+    }
     public void DiscardCard(Card card) {
 
         Vector3 discardTarget = new Vector3(discardTransform.position.x,
@@ -115,6 +202,21 @@ public class DeckManager : MonoBehaviour {
         discardPool.Insert(0,card);
         playedPool.Insert(playedPool.IndexOf(card), null);
         playedPool.Remove(card);
+
+    }
+    public void DiscardEffectCard(Card card)
+    {
+
+        Vector3 discardTarget = new Vector3(discardTransform.position.x,
+                                            discardTransform.position.y + cardPrefab.transform.localScale.y * discardPool.Count,
+                                            discardTransform.position.z);
+
+        card.StartCoroutine(card.MoveToTarget(discardTarget, 5));
+        card.StartCoroutine(card.RotateToTarget(discardTransform.rotation, 5));
+        card.onPlayingField = false;
+
+        discardPool.Insert(0, card);
+        effectPool.Remove(card);
 
     }
 
@@ -194,6 +296,37 @@ public class DeckManager : MonoBehaviour {
         }
         cardPool.Reverse();
         return cardPool;
+    }
+
+    public void ActivatePassives()
+    {
+        foreach (Card card in passivePool)
+        {
+            switch (card.stats.modification)
+            {
+                case mod.Addition:
+                    break;
+                case mod.ActiveMultiplication:
+                    break;
+                case mod.passiveAddition:
+                    planet.atmosLevel += card.stats.carbonModifier;
+                    planet.temperature += card.stats.tempModifier;
+                    planet.radiation += card.stats.radModifier;
+                    planet.lifeComplexity += card.stats.lifeModifier;
+                    break;
+                case mod.effect:
+                    break;
+                case mod.Destroypassive:
+                    break;
+                default:
+                    break;
+            }
+            planet.atmosLevel = Mathf.Clamp(planet.atmosLevel, 0, 10);
+            planet.temperature = Mathf.Clamp(planet.temperature, 0, 10);
+            planet.radiation = Mathf.Clamp(planet.radiation, 0, 10);
+            planet.lifeComplexity = Mathf.Clamp(planet.lifeComplexity, 0, 7);
+
+        }
     }
 
 }

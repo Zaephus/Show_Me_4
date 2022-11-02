@@ -1,6 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.SceneTemplate;
 using UnityEngine;
+
+public enum mod
+{
+    Addition,
+    ActiveMultiplication,
+    passiveAddition,
+    effect,
+    Destroypassive
+
+}
+public enum special
+{
+    none,
+    radiationFilter
+}
 
 [CreateAssetMenuAttribute(fileName = "CardStats")]
 public class CardStats : ScriptableObject {
@@ -14,5 +32,28 @@ public class CardStats : ScriptableObject {
     public float tempModifier;
     public float radModifier;
     public float lifeModifier;
+    public mod modification;
+    public special special;
+    public System.Func<(int, int, int, int, special), (int,int,int,int)> cardFunc = cardValues => SpecialCard(cardValues);
 
+    public static (int,int,int,int) SpecialCard( (int,int,int,int, special) cardValues)
+    {
+        int atmos = cardValues.Item1;
+        int temp = cardValues.Item2;
+        int rad = cardValues.Item3;
+        int life = cardValues.Item4;
+        special sp = cardValues.Item5;
+
+        switch (sp)
+        {
+            case special.radiationFilter:
+                rad = 0;
+                break;
+            default:
+                break;
+        }
+
+        return (atmos, temp, rad, life);
+    }
 }
+
