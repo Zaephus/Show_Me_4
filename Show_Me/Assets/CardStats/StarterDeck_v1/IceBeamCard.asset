@@ -16,6 +16,8 @@ MonoBehaviour:
   cardDescription: Decreases temperature greatly.
   oxygenModifier: 0
   carbonModifier: 0
-  tempModifier: -40
-  radModifier: 20
+  tempModifier: -4
+  radModifier: 2
   lifeModifier: 0
+  modification: 0
+  special: 0
