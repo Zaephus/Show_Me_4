@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adedacea557abc45870732a3587b66a, type: 3}
   m_Name: Planter
   m_EditorClassIdentifier: 
-  cardName: 
+  cardName: Planter
   cardDescription: 
   oxygenModifier: 0
   carbonModifier: 0
