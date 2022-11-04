@@ -1255,6 +1255,11 @@ PrefabInstance:
       objectReference: {fileID: 582498319}
     - target: {fileID: 1561080163410121069, guid: 972e43bbfd868eb438a288685c09a5f5,
         type: 3}
+      propertyPath: material
+      value: 
+      objectReference: {fileID: 2100000, guid: e4bc5d5c9ec61e6489592a09ffe3ef28, type: 2}
+    - target: {fileID: 1561080163410121069, guid: 972e43bbfd868eb438a288685c09a5f5,
+        type: 3}
       propertyPath: tempText
       value: 
       objectReference: {fileID: 1253364590}

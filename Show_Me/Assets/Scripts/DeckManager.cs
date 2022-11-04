@@ -163,6 +163,7 @@ public class DeckManager : MonoBehaviour {
             default:
                 break;
         }
+        planet.UpdateValues();
     }
 
     public void PlayPassive(Card card)
@@ -331,6 +332,10 @@ public class DeckManager : MonoBehaviour {
             planet.lifeComplexity = Mathf.Clamp(planet.lifeComplexity, 0, 7);
 
         }
+
+        planet.UpdateValues();
+        
     }
+
 
 }
