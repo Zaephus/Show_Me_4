@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1adedacea557abc45870732a3587b66a, type: 3}
-  m_Name: IntroduceSpeciesCard
+  m_Name: CO2 Converter
   m_EditorClassIdentifier: 
-  cardName: Introduce Species
-  cardDescription: Add a life foundation, if possible.
+  cardName: CO2 Converter
+  cardDescription: Converts all played O2  to CO2
   oxygenModifier: 0
-  carbonModifier: -2
+  carbonModifier: 0
   tempModifier: 0
   radModifier: 0
-  lifeModifier: 1
-  modification: 0
-  special: 0
+  lifeModifier: 0
+  modification: 3
+  special: 4

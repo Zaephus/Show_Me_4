@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor.SceneTemplate;
 using UnityEngine;
@@ -17,7 +18,13 @@ public enum mod
 public enum special
 {
     none,
-    radiationFilter
+    radiationFilter,
+    AtmosphericStabilizer,
+    StaticTemp,
+    CO2Converter,
+    ConverseThermostat,
+    EnergyConversion,
+    MutationVirus
 }
 
 [CreateAssetMenuAttribute(fileName = "CardStats")]
@@ -48,6 +55,44 @@ public class CardStats : ScriptableObject {
         {
             case special.radiationFilter:
                 rad = 0;
+                break;
+            case special.none:
+                break;
+            case special.AtmosphericStabilizer:
+                atmos = 0;
+                break;
+            case special.StaticTemp:
+                temp = 0;
+                break;
+            case special.CO2Converter:
+                atmos = math.abs(temp);
+                break;
+            case special.ConverseThermostat:
+                temp = -temp;
+                break;
+            case special.EnergyConversion:
+                if (rad > (10 - temp))
+                {
+                    rad = rad - (10 - temp);
+                    temp = 10;
+                }
+                else
+                {
+                    temp = temp + rad;
+                    rad = 0;
+                }
+                break;
+            case special.MutationVirus:
+                if (rad > (7 - life))
+                {
+                    rad = rad - (7 - life);
+                    life = 7;
+                }
+                else
+                {
+                    life = life + rad;
+                    rad = 0;
+                }
                 break;
             default:
                 break;
