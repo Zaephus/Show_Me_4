@@ -36,8 +36,6 @@ public class DeckManager : MonoBehaviour {
 
         for(int i = 0; i < deck.cards.Count; i++) {
             GameObject card = Instantiate(cardPrefab,Vector3.zero,cardPrefab.transform.localRotation);
-            card.GetComponent<Card>().title = deck.cards[i].cardName;
-            card.GetComponent<Card>().description = deck.cards[i].cardDescription;
             card.GetComponent<Card>().Initialize(this, deck.cards[i]);
             deckPool.Add(card.GetComponent<Card>());
         }
