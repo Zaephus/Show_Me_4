@@ -15,19 +15,22 @@ public class PlanetManager : MonoBehaviour {
     [SerializeField] private TMP_Text radText;
     [SerializeField] private TMP_Text lifeText;
 
-    private Material material;
-    private Shader shader;
+    [SerializeField] private Material planetMat;
+    [SerializeField] private Material oceanMat;
+    [SerializeField] private Material atmosphereMat;
 
     public void Start() {
-        material = GetComponent<Material>();
-        shader = GetComponent<Shader>();
+        UpdateValues();
     }
 
-    public void Update() {
-        atmosText.text = "CO2: " + atmosLevel;
+    public void UpdateValues() {
+        atmosText.text = "O2/CO2: " + atmosLevel;
         tempText.text = "Temp: " + temperature;
         radText.text = "Rad: " + radiation;
         lifeText.text = "Life: " + lifeComplexity;
+
+        planetMat.SetFloat("_LifeAmount", lifeComplexity/7);
+        atmosphereMat.SetFloat("_TempBlend", temperature/10);
     }
 
 }

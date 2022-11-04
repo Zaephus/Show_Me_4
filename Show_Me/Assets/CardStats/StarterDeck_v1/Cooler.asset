@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1adedacea557abc45870732a3587b66a, type: 3}
-  m_Name: Hot air
+  m_Name: Cooler
   m_EditorClassIdentifier: 
-  cardName: Hot air
-  cardDescription: Increases temparature moderatly
-  oxygenModifier: 1
-  carbonModifier: -1
-  tempModifier: 2
-  radModifier: 0
+  cardName: Cooler
+  cardDescription: Cools using unconventional methods
+  oxygenModifier: 0
+  carbonModifier: 0
+  tempModifier: 1
+  radModifier: 1
   lifeModifier: 0
+  modification: 2
+  special: 0
