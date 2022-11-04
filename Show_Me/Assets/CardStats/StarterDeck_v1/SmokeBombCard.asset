@@ -16,8 +16,8 @@ MonoBehaviour:
   cardDescription: Decreases radiation greatly.
   oxygenModifier: 0
   carbonModifier: 0
-  tempModifier: -2
-  radModifier: -4
+  tempModifier: -1
+  radModifier: -2
   lifeModifier: 0
   modification: 0
   special: 0

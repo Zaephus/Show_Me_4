@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Oxygen Bomb
   cardDescription: Increases O2.
-  oxygenModifier: 40
-  carbonModifier: -4
-  tempModifier: -2
-  radModifier: -2
+  oxygenModifier: 0
+  carbonModifier: -2
+  tempModifier: -1
+  radModifier: -1
   lifeModifier: 0
   modification: 0
   special: 0
