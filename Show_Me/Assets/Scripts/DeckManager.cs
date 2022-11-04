@@ -26,6 +26,7 @@ public class DeckManager : MonoBehaviour {
     [SerializeField] private PlanetManager planet;
 
     [SerializeField] private List<CardStats> cardStats = new List<CardStats>();
+    [SerializeField] private DeckObject deck;
 
     [SerializeField] private GameObject cardPrefab;
 
@@ -33,11 +34,11 @@ public class DeckManager : MonoBehaviour {
 
     public void Initialize() {
 
-        for(int i = 0; i < cardStats.Count; i++) {
+        for(int i = 0; i < deck.cards.Count; i++) {
             GameObject card = Instantiate(cardPrefab,Vector3.zero,cardPrefab.transform.localRotation);
-            card.GetComponent<Card>().title = cardStats[i].cardName;
-            card.GetComponent<Card>().description = cardStats[i].cardDescription;
-            card.GetComponent<Card>().Initialize(this, cardStats[i]);
+            card.GetComponent<Card>().title = deck.cards[i].cardName;
+            card.GetComponent<Card>().description = deck.cards[i].cardDescription;
+            card.GetComponent<Card>().Initialize(this, deck.cards[i]);
             deckPool.Add(card.GetComponent<Card>());
         }
 
@@ -77,7 +78,10 @@ public class DeckManager : MonoBehaviour {
 
     public IEnumerator MoveToPlayingField(Card card) {
 
-        Transform targetTransform = playTransforms[playedPool.Count];
+        Transform targetTransform = playTransforms[0];
+        if(playedPool.Count < playTransforms.Count) {
+            targetTransform = playTransforms[playedPool.Count];
+        }
 
         for(int i = 0; i < playedPool.Count; i++) {
             if(playedPool[i] == null) {

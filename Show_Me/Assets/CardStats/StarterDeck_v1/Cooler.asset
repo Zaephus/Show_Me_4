@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adedacea557abc45870732a3587b66a, type: 3}
   m_Name: Cooler
   m_EditorClassIdentifier: 
-  cardName: 
+  cardName: Cooler
   cardDescription: Cools using unconventional methods
   oxygenModifier: 0
   carbonModifier: 0

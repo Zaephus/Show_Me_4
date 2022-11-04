@@ -24,7 +24,7 @@ public class PlanetManager : MonoBehaviour {
     }
 
     public void Update() {
-        atmosText.text = "CO2: " + atmosLevel;
+        atmosText.text = "O2/CO2: " + atmosLevel;
         tempText.text = "Temp: " + temperature;
         radText.text = "Rad: " + radiation;
         lifeText.text = "Life: " + lifeComplexity;
