@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: ConverseThermostat
   m_EditorClassIdentifier: 
   cardName: Converse Thermostat
+  cardType: Effect
   cardDescription: Cards that increase temparature now decrease temparature and vise
     versa
+  cardTexture: {fileID: 0}
   oxygenModifier: 0
   carbonModifier: 0
   tempModifier: 0

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Energy Conversion
   m_EditorClassIdentifier: 
   cardName: Engergy Conversion
+  cardType: Modifier
   cardDescription: Converts radiation to temparature
+  cardTexture: {fileID: 0}
   oxygenModifier: 0
   carbonModifier: 0
   tempModifier: 0

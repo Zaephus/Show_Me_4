@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: CO2 Converter
   m_EditorClassIdentifier: 
   cardName: CO2 Converter
+  cardType: Effect
   cardDescription: Converts all played O2  to CO2
+  cardTexture: {fileID: 0}
   oxygenModifier: 0
   carbonModifier: 0
   tempModifier: 0
