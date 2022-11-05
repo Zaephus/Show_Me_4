@@ -31,6 +31,7 @@ public enum special
 public class CardStats : ScriptableObject {
 
     public string cardName;
+    public string cardType;
     [TextArea(5,10)]
     public string cardDescription;
 

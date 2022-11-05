@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: RadiationFilter
   m_EditorClassIdentifier: 
   cardName: Radiation filter
+  cardType: Effect
   cardDescription: Filters all radiation from active cards
+  cardTexture: {fileID: 0}
   oxygenModifier: 0
   carbonModifier: 0
   tempModifier: 0

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Radiator
   m_EditorClassIdentifier: 
   cardName: Radiator
+  cardType: Passive
   cardDescription: Radiates radiation and heat
   cardTexture: {fileID: 2800000, guid: 23c992ed390e5ea4585fbea84bbe6fbd, type: 3}
   oxygenModifier: 0

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: MutationVirus
   m_EditorClassIdentifier: 
   cardName: Mutation Virus
+  cardType: Modifier
   cardDescription: Life absorbs radation to form new life
+  cardTexture: {fileID: 0}
   oxygenModifier: 0
   carbonModifier: 0
   tempModifier: 0

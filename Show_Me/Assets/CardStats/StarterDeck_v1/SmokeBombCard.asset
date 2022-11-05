@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SmokeBombCard
   m_EditorClassIdentifier: 
   cardName: Smoke Bomb
+  cardType: Instant
   cardDescription: Decreases radiation greatly.
   cardTexture: {fileID: 2800000, guid: 15ab26ad58f7b834ca62f604e5da184e, type: 3}
   oxygenModifier: 0

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BurnBiomassCard
   m_EditorClassIdentifier: 
   cardName: Burn Biomass
+  cardType: Instant
   cardDescription: 'Requires 1 life foundation.
 
     Increases CO2 tremendously.'

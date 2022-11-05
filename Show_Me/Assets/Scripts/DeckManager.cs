@@ -61,7 +61,7 @@ public class DeckManager : MonoBehaviour {
     public IEnumerator ResetDeck(List<Card> cardPool) {
 
         for(int i = 0; i < cardPool.Count; i++) {
-            Vector3 targetPos = new Vector3(deckTransform.position.x, deckTransform.position.y + cardPool[i].transform.localScale.y*i, deckTransform.position.z);
+            Vector3 targetPos = new Vector3(deckTransform.position.x, deckTransform.position.y + 2*cardPool[i].transform.localScale.z*i, deckTransform.position.z);
             cardPool[i].StartCoroutine(cardPool[i].MoveToTarget(targetPos, 2));
             cardPool[i].StartCoroutine(cardPool[i].RotateToTarget(Quaternion.Euler(new Vector3(deckTransform.eulerAngles.x + 180, deckTransform.eulerAngles.y, deckTransform.eulerAngles.z)), 2));
             yield return new WaitForSeconds(0.5f);
@@ -151,7 +151,7 @@ public class DeckManager : MonoBehaviour {
                 DiscardCard(card);
                 break;
             case mod.passiveAddition:
-                PlayPassive(card);
+                PlayPassiveCard(card);
                 break;
             case mod.effect:
                 PlayEffectCard(card);
@@ -164,11 +164,11 @@ public class DeckManager : MonoBehaviour {
         planet.UpdateValues();
     }
 
-    public void PlayPassive(Card card)
+    public void PlayPassiveCard(Card card)
     {
 
         Vector3 passiveTarget = new Vector3(passiveTransform.position.x - (cardPrefab.transform.localScale.x/4) * passivePool.Count,
-                                            passiveTransform.position.y + cardPrefab.transform.localScale.y * passivePool.Count,
+                                            passiveTransform.position.y + 2*cardPrefab.transform.localScale.z * passivePool.Count,
                                             passiveTransform.position.z);
         card.StartCoroutine(card.MoveToTarget(passiveTarget, 5));
         card.onPlayingField = false;
@@ -182,7 +182,7 @@ public class DeckManager : MonoBehaviour {
     {
 
         Vector3 effectTarget = new Vector3(effectTransform.position.x - (cardPrefab.transform.localScale.x/4) * effectPool.Count,
-                                            effectTransform.position.y + cardPrefab.transform.localScale.y * effectPool.Count,
+                                            effectTransform.position.y + 2*cardPrefab.transform.localScale.z * effectPool.Count,
                                             effectTransform.position.z);
         card.StartCoroutine(card.MoveToTarget(effectTarget, 5));
         card.onPlayingField = false;
@@ -195,7 +195,7 @@ public class DeckManager : MonoBehaviour {
     public void DiscardCard(Card card) {
 
         Vector3 discardTarget = new Vector3(discardTransform.position.x,
-                                            discardTransform.position.y + cardPrefab.transform.localScale.y * discardPool.Count,
+                                            discardTransform.position.y + 2*cardPrefab.transform.localScale.z * discardPool.Count,
                                             discardTransform.position.z);
 
         card.StartCoroutine(card.MoveToTarget(discardTarget, 5));
@@ -211,7 +211,7 @@ public class DeckManager : MonoBehaviour {
     {
 
         Vector3 discardTarget = new Vector3(discardTransform.position.x,
-                                            discardTransform.position.y + cardPrefab.transform.localScale.y * discardPool.Count,
+                                            discardTransform.position.y + cardPrefab.transform.localScale.z * discardPool.Count,
                                             discardTransform.position.z);
 
         card.StartCoroutine(card.MoveToTarget(discardTarget, 5));
@@ -236,6 +236,8 @@ public class DeckManager : MonoBehaviour {
 
     public IEnumerator StartViewCard(Card card) {
 
+        isViewingCard = true;
+
         Vector3 startPosition = card.transform.position;
         Quaternion startRotation = card.transform.rotation;
 
@@ -244,7 +246,6 @@ public class DeckManager : MonoBehaviour {
 
         useButton.gameObject.SetActive(true);
         returnButton.gameObject.SetActive(true);
-        isViewingCard = true;
 
         WaitForUIButtons waitForButton = new WaitForUIButtons(useButton, returnButton);
         yield return waitForButton.Reset();
@@ -269,6 +270,8 @@ public class DeckManager : MonoBehaviour {
 
     public IEnumerator StartViewObjective(ObjectiveCard oCard) {
 
+        isViewingCard = true;
+
         Vector3 startPosition = oCard.transform.position;
         Quaternion startRotation = oCard.transform.rotation;
 
@@ -276,7 +279,6 @@ public class DeckManager : MonoBehaviour {
         yield return oCard.StartCoroutine(oCard.RotateToTarget(objectiveViewTarget.rotation, 5));
 
         returnButton.gameObject.SetActive(true);
-        isViewingCard = true;
 
         WaitForUIButtons waitForButton = new WaitForUIButtons(returnButton);
         yield return waitForButton.Reset();
@@ -295,7 +297,7 @@ public class DeckManager : MonoBehaviour {
     private List<Card> ShufflePool(List<Card> cardPool,Transform poolTransform) {
         cardPool = cardPool.OrderBy(a => Random.value).ToList();
         for(int i = 0; i < deckPool.Count; i++) {
-            cardPool[i].transform.position = new Vector3(poolTransform.position.x, poolTransform.position.y + cardPrefab.transform.localScale.y*i, poolTransform.position.z);
+            cardPool[i].transform.position = new Vector3(poolTransform.position.x, poolTransform.position.y + 2*cardPrefab.transform.localScale.z*i, poolTransform.position.z);
         }
         cardPool.Reverse();
         return cardPool;

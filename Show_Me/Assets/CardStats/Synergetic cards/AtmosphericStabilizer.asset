@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: AtmosphericStabilizer
   m_EditorClassIdentifier: 
   cardName: AtmosphericStabilizer
+  cardType: Effect
   cardDescription: Cards played have no effect on the atmosphere
+  cardTexture: {fileID: 0}
   oxygenModifier: 0
   carbonModifier: 0
   tempModifier: 0

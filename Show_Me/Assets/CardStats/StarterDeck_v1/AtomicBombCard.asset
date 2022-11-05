@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AtomicBombCard
   m_EditorClassIdentifier: 
   cardName: Atomic Bomb
+  cardType: Instant
   cardDescription: Increases radiation greatly.
   cardTexture: {fileID: 2800000, guid: 5d34234d044872f46bfaccf3440403c4, type: 3}
   oxygenModifier: 0

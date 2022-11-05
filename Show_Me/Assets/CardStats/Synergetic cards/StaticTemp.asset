@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: StaticTemp
   m_EditorClassIdentifier: 
   cardName: Static Temp
+  cardType: Effect
   cardDescription: Keeps the temparature static
+  cardTexture: {fileID: 0}
   oxygenModifier: 0
   carbonModifier: 0
   tempModifier: 0

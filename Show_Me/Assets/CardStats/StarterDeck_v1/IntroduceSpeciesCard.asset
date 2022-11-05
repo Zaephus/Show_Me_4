@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: IntroduceSpeciesCard
   m_EditorClassIdentifier: 
   cardName: Introduce Species
+  cardType: Instant
   cardDescription: Add a life foundation, if possible.
   cardTexture: {fileID: 2800000, guid: 4d0ad4cf5cd5dce488282ed647ab0a7a, type: 3}
   oxygenModifier: 0
