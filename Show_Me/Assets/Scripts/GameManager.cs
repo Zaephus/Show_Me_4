@@ -9,5 +9,11 @@ public class GameManager : MonoBehaviour {
 
     public void StartGame() {
         mainMenu.SetActive(false);
+        game.SetActive(true);
     }
+
+    public void ExitGame() {
+        Application.Quit();
+    }
+
 }
