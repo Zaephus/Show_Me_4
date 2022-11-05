@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Sun Blanket
   cardDescription: Shelters the planet from radation each day
+  cardTexture: {fileID: 2800000, guid: 64871b15fca83d14d97a6904dd0f3777, type: 3}
   oxygenModifier: 0
   carbonModifier: 0
   tempModifier: -1
