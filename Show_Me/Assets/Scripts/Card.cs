@@ -10,6 +10,8 @@ public class Card : MonoBehaviour {
 
     [HideInInspector] public CardStats stats;
 
+    [SerializeField] private Material thumbnailMat;
+
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text descriptionText;
 
@@ -20,8 +22,8 @@ public class Card : MonoBehaviour {
         stats = cs;
         titleText.text = stats.cardName;
         descriptionText.text = stats.cardDescription;
+        thumbnailMat.SetTexture("_CardImageTexture",stats.cardTexture);
     }
-
     public void OnMouseOver() {
 
         if(onPlayingField) {

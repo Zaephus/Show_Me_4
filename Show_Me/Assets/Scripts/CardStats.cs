@@ -34,6 +34,8 @@ public class CardStats : ScriptableObject {
     [TextArea(5,10)]
     public string cardDescription;
 
+    public Texture2D cardTexture;
+
     public float oxygenModifier;
     public float carbonModifier;
     public float tempModifier;
