@@ -2402,14 +2402,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1454391434}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -1.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1504479741}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &1504479740
 GameObject:
   m_ObjectHideFlags: 0
@@ -2606,7 +2606,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c514f457dffd2fc40bc7d8ebbe841529, type: 2}
   - {fileID: 11400000, guid: ccd76a44b9d44b24b9ee2b2151ec1a59, type: 2}
   deck: {fileID: 11400000, guid: aa90f94322f8ddd458443a924757cc71, type: 2}
-  cardPrefab: {fileID: 8362644048327980929, guid: 6b447211db2bb054d94b14ca57500c3c,
+  cardPrefab: {fileID: 143031816281240422, guid: 5bf85a1d13128a942a32c682fceff21b,
     type: 3}
 --- !u!23 &1694378794
 MeshRenderer:
