@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Sun Mirror
   cardDescription: Increases the influence of the star to the planet
+  cardTexture: {fileID: 2800000, guid: 5b6802f9d8486794e8f1f498dba15184, type: 3}
   oxygenModifier: 0
   carbonModifier: 0
   tempModifier: 1

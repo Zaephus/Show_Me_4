@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Ice Beam
   cardDescription: Decreases temperature greatly.
+  cardTexture: {fileID: 2800000, guid: ea98195bb75f3df4da635b48e29f8d0b, type: 3}
   oxygenModifier: 0
   carbonModifier: 0
   tempModifier: -2
