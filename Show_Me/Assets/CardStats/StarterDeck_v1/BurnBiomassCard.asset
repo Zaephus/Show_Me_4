@@ -16,6 +16,7 @@ MonoBehaviour:
   cardDescription: 'Requires 1 life foundation.
 
     Increases CO2 tremendously.'
+  cardTexture: {fileID: 2800000, guid: 7981be4f0d5db2e419463c8d03250457, type: 3}
   oxygenModifier: 0
   carbonModifier: 3
   tempModifier: 1

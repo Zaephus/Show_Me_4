@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Cooler
   cardDescription: Cools using unconventional methods
+  cardTexture: {fileID: 2800000, guid: 293eb150b4ea8c6448497cc3178292a3, type: 3}
   oxygenModifier: 0
   carbonModifier: 0
   tempModifier: 1
