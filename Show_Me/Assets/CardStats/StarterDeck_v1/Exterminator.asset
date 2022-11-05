@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Exterminator
   m_EditorClassIdentifier: 
   cardName: Exterminator
+  cardType: Passive
   cardDescription: 
   cardTexture: {fileID: 2800000, guid: be4e47d2d252df34b9148cde06e923be, type: 3}
   oxygenModifier: 0
