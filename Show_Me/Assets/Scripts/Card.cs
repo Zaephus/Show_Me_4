@@ -6,9 +6,6 @@ using TMPro;
 
 public class Card : MonoBehaviour {
 
-    public string title;
-    public string description;
-
     [HideInInspector] public bool onPlayingField = false;
 
     [HideInInspector] public CardStats stats;
@@ -23,15 +20,10 @@ public class Card : MonoBehaviour {
     public void Initialize(DeckManager dm, CardStats cs) {
         deckManager = dm;
         stats = cs;
-        titleText.text = title;
-        descriptionText.text = description;
+        titleText.text = stats.cardName;
+        descriptionText.text = stats.cardDescription;
         thumbnailMat.SetTexture("_CardImageTexture",stats.cardTexture);
     }
-
-    public void OnUpdate() {
-
-    }
-
     public void OnMouseOver() {
 
         if(onPlayingField) {
