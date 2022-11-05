@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Fire Bomb
   cardDescription: Increases temperature greatly.
+  cardTexture: {fileID: 2800000, guid: 8f331f9adc56783458d237e3fa4dd537, type: 3}
   oxygenModifier: 0
   carbonModifier: 1
   tempModifier: 2

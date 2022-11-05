@@ -50,6 +50,7 @@ public class PlayManager : MonoBehaviour {
     }
 
     private IEnumerator EndDay() {
+        
         deck.ActivatePassives();
         for (int i = 0; i < deck.playedPool.Count; i++) {
             if(deck.playedPool[i] != null) {
