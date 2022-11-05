@@ -15,7 +15,9 @@ MonoBehaviour:
   cardName: Introduce Species
   cardDescription: Add a life foundation, if possible.
   oxygenModifier: 0
-  carbonModifier: 0
+  carbonModifier: -2
   tempModifier: 0
   radModifier: 0
   lifeModifier: 1
+  modification: 0
+  special: 0

@@ -38,6 +38,9 @@ public class PlayManager : MonoBehaviour {
         
         for(int i = 0; i < amountToPlay; i++) {
             StartCoroutine(deck.MoveToPlayingField(deck.deckPool[0]));
+            if(deck.deckPool.Count == 0) {
+                break;
+            }
             yield return new WaitForSeconds(0.5f);
         }
 

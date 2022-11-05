@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Fire Bomb
   cardDescription: Increases temperature greatly.
-  oxygenModifier: -20
-  carbonModifier: 2
-  tempModifier: 4
-  radModifier: 2
+  oxygenModifier: 0
+  carbonModifier: 1
+  tempModifier: 2
+  radModifier: 0
   lifeModifier: 0
   modification: 0
   special: 0

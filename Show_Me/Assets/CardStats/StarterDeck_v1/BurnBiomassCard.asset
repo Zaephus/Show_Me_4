@@ -16,10 +16,10 @@ MonoBehaviour:
   cardDescription: 'Requires 1 life foundation.
 
     Increases CO2 tremendously.'
-  oxygenModifier: -50
-  carbonModifier: 5
-  tempModifier: 2
-  radModifier: 2
+  oxygenModifier: 0
+  carbonModifier: 3
+  tempModifier: 1
+  radModifier: 0
   lifeModifier: -1
   modification: 0
   special: 0
