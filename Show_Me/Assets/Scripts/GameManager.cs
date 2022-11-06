@@ -22,7 +22,8 @@ public class GameManager : MonoBehaviour {
     }
 
     public void ExitGame() {
-        Application.Quit();
+        //Application.Quit();
+        NewGame();
     }
 
     public void EndGame() {
