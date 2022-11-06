@@ -25,7 +25,6 @@ public class DeckManager : MonoBehaviour {
 
     [SerializeField] private PlanetManager planet;
 
-    [SerializeField] private List<CardStats> cardStats = new List<CardStats>();
     [SerializeField] private DeckObject deck;
 
     [SerializeField] private GameObject cardPrefab;
@@ -47,23 +46,13 @@ public class DeckManager : MonoBehaviour {
 
     }
 
-    private void Update() {
-        // if(Input.GetKeyDown(KeyCode.E)) {
-        //     if(deckPool.Count != 0) {
-        //         StartCoroutine(MoveToPlayingField(deckPool[0]));
-        //     }
-        //     else {
-        //         StartCoroutine(ResetDeck(discardPool));
-        //     }
-        // }
-    }
-
     public IEnumerator ResetDeck(List<Card> cardPool) {
 
         for(int i = 0; i < cardPool.Count; i++) {
             Vector3 targetPos = new Vector3(deckTransform.position.x, deckTransform.position.y + 2*cardPool[i].transform.localScale.z*i, deckTransform.position.z);
+            cardPool[i].StopAllCoroutines();
             cardPool[i].StartCoroutine(cardPool[i].MoveToTarget(targetPos, 2));
-            cardPool[i].StartCoroutine(cardPool[i].RotateToTarget(Quaternion.Euler(new Vector3(deckTransform.eulerAngles.x + 180, deckTransform.eulerAngles.y, deckTransform.eulerAngles.z)), 2));
+            cardPool[i].StartCoroutine(cardPool[i].RotateToTarget(deckTransform.rotation, 2));
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -93,7 +82,7 @@ public class DeckManager : MonoBehaviour {
         playedPool.Insert(playTransforms.IndexOf(targetTransform), card);
 
         card.StartCoroutine(card.MoveToTarget(targetTransform.position, 5));
-        yield return card.StartCoroutine(card.RotateToTarget(Quaternion.Euler(new Vector3(card.transform.eulerAngles.x + 180, card.transform.eulerAngles.y, card.transform.eulerAngles.z)), 5));
+        yield return card.StartCoroutine(card.RotateToTarget(targetTransform.rotation, 5));
         
         card.onPlayingField = true;
 
@@ -236,6 +225,8 @@ public class DeckManager : MonoBehaviour {
 
     public IEnumerator StartViewCard(Card card) {
 
+        card.StopAllCoroutines();
+
         isViewingCard = true;
 
         Vector3 startPosition = card.transform.position;
@@ -298,6 +289,7 @@ public class DeckManager : MonoBehaviour {
         cardPool = cardPool.OrderBy(a => Random.value).ToList();
         for(int i = 0; i < deckPool.Count; i++) {
             cardPool[i].transform.position = new Vector3(poolTransform.position.x, poolTransform.position.y + 2*cardPrefab.transform.localScale.z*i, poolTransform.position.z);
+            cardPool[i].transform.rotation = poolTransform.rotation;
         }
         cardPool.Reverse();
         return cardPool;

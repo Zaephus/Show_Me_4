@@ -7,13 +7,13 @@ public class PlanetManager : MonoBehaviour {
 
     public float atmosLevel;
     public float temperature;
-    public float radiation;
     public float lifeComplexity;
+    public float radiation;
 
-    [SerializeField] private TMP_Text atmosText;
-    [SerializeField] private TMP_Text tempText;
-    [SerializeField] private TMP_Text radText;
-    [SerializeField] private TMP_Text lifeText;
+    [SerializeField] private GameObject atmosSlider;
+    [SerializeField] private GameObject tempSlider;
+    [SerializeField] private GameObject lifeSlider;
+    [SerializeField] private GameObject radSlider;
 
     [SerializeField] private Material planetMat;
     [SerializeField] private Material oceanMat;
@@ -24,13 +24,26 @@ public class PlanetManager : MonoBehaviour {
     }
 
     public void UpdateValues() {
-        atmosText.text = "O2/CO2: " + atmosLevel;
-        tempText.text = "Temp: " + temperature;
-        radText.text = "Rad: " + radiation;
-        lifeText.text = "Life: " + lifeComplexity;
 
-        planetMat.SetFloat("_LifeAmount", lifeComplexity/7);
+        atmosSlider.transform.localScale = new Vector3(atmosLevel/2, 
+                                                       atmosSlider.transform.localScale.y,
+                                                       atmosSlider.transform.localScale.z);
+
+        tempSlider.transform.localScale = new Vector3(temperature/2, 
+                                                      tempSlider.transform.localScale.y,
+                                                      tempSlider.transform.localScale.z);
+
+        lifeSlider.transform.localScale = new Vector3(lifeComplexity/2, 
+                                                      lifeSlider.transform.localScale.y,
+                                                      lifeSlider.transform.localScale.z);
+
+        radSlider.transform.localScale = new Vector3(radiation/2, 
+                                                     radSlider.transform.localScale.y,
+                                                     radSlider.transform.localScale.z);
+
         atmosphereMat.SetFloat("_TempBlend", temperature/10);
+        planetMat.SetFloat("_LifeAmount", lifeComplexity/7);
+
     }
 
 }

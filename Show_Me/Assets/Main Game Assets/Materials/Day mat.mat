@@ -103,6 +103,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 0
     - _Cutoff: 0.5
+    - _DaySelection: 1
     - _Day_Selection: 1
     - _Day_Selection_0_1_to_1: 1
     - _DetailAlbedoMapScale: 1

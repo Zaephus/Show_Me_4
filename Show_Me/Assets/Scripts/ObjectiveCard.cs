@@ -5,15 +5,15 @@ using TMPro;
 
 public class ObjectiveCard : MonoBehaviour {
 
-    [TextArea(5,10)]
-    public string objectives;
+    //[TextArea(5,10)]
+    //public string objectives;
 
-    public TMP_Text objectivesText;
+    //public TMP_Text objectivesText;
 
     public DeckManager deckManager;
 
     private void Start() {
-        objectivesText.text = objectives;
+        //objectivesText.text = objectives;
     }
 
     public void OnMouseDown() {
