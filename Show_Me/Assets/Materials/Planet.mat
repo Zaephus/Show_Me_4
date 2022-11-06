@@ -67,7 +67,7 @@ Material:
     - _DisplacementAmplitude: 0.3
     - _DstBlend: 0
     - _Intensity: 0.25
-    - _LifeAmount: 0
+    - _LifeAmount: 0.5714286
     - _MountainRange: 0.41
     - _NoiseScale: 3
     - _PeakIntensity: 0.3

@@ -13,7 +13,7 @@ public class PlayManager : MonoBehaviour {
 
     public List<(string,int,int,int,int,int,int,int,int)> joblist = new List<(string, int, int, int, int, int, int, int, int)> ();
 
-    [SerializeField] private TMP_Text dayText;
+    [SerializeField] private Material dayMaterial;
     private int dayCounter = 0;
 
     private bool canEnd = false;
@@ -29,7 +29,7 @@ public class PlayManager : MonoBehaviour {
     
 
     private void Update() {
-        if(canEnd && (Input.GetKeyDown(KeyCode.E) || deck.playedPool.Count == 0)) {
+        if(canEnd && deck.playedPool.Count == 0) {
             canEnd = false;
             StartCoroutine(EndDay());
         }
@@ -42,10 +42,8 @@ public class PlayManager : MonoBehaviour {
         StartCoroutine(StartDay(1));
     }
 
-    public void OnEndDayClick()
-    {
-        if (canEnd)
-        {
+    public void OnEndDayClick() {
+        if (canEnd) {
             canEnd = false;
             StartCoroutine(EndDay());
         }
@@ -53,7 +51,7 @@ public class PlayManager : MonoBehaviour {
     private IEnumerator StartDay(int day) {
 
         dayCounter = day;
-        dayText.text = "Day: " + dayCounter.ToString();
+        dayMaterial.SetFloat("_DaySelection", day);
         
         for(int i = 0; i < amountToPlay; i++) {
             StartCoroutine(deck.MoveToPlayingField(deck.deckPool[0]));
@@ -85,14 +83,20 @@ public class PlayManager : MonoBehaviour {
 
         yield return new WaitForSeconds(3f);
 
-        if(deck.deckPool.Count == 0) {
-            yield return StartCoroutine(deck.ResetDeck(deck.discardPool));
+        if(dayCounter >= 7) {
+            FindObjectOfType<GameManager>().EndGame();
+            yield break;
         }
+        else {
+            if(deck.deckPool.Count == 0) {
+                yield return StartCoroutine(deck.ResetDeck(deck.discardPool));
+            }
 
-        yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(2f);
 
-        dayCounter ++;
-        StartCoroutine(StartDay(dayCounter));
+            dayCounter ++;
+            StartCoroutine(StartDay(dayCounter));
+        }
 
     }
 

@@ -1636,7 +1636,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "d85e08eb0e2745188f60ca3b0649c7f4",
     "m_Id": 0,
-    "m_DisplayName": "Day Selection",
+    "m_DisplayName": "DaySelection",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1827,10 +1827,10 @@
     "m_Guid": {
         "m_GuidSerialized": "873c5fb0-b74b-4ea8-b43e-407405836903"
     },
-    "m_Name": "Day Selection",
+    "m_Name": "DaySelection",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Day Selection",
-    "m_DefaultReferenceName": "_Day_Selection",
+    "m_RefNameGeneratedByDisplayName": "DaySelection",
+    "m_DefaultReferenceName": "_DaySelection",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
